@@ -26,7 +26,7 @@ jobs:
           XDEBUG_MODE: coverage
       - name: Enforce backend coverage >= 80%
         run: |
-          php -r 'if(!file_exists("coverage.xml")){fwrite(STDERR,"coverage.xml not generated (check xdebug coverage setup).\n"); exit(1);} $xml=simplexml_load_file("coverage.xml"); $metrics=$xml->project->metrics; $total=(int)($metrics["statements"] ?? 0); $covered=(int)($metrics["coveredstatements"] ?? 0); $pct=$total>0?($covered*100/$total):0; echo "Backend unit coverage: ".number_format($pct,2)."%\n"; if($pct<80){fwrite(STDERR,"Coverage below 80%\n"); exit(1);}';
+          php -r 'if(!file_exists("coverage.xml")){fwrite(STDERR,"coverage.xml not generated (check xdebug coverage setup).\n"); exit(1);} $xml=simplexml_load_file("coverage.xml"); $nodes=$xml->xpath("//file/metrics"); $total=0; $covered=0; foreach($nodes as $m){$total+=(int)($m["statements"] ?? 0); $covered+=(int)($m["coveredstatements"] ?? 0);} $pct=$total>0?($covered*100/$total):0; echo "Backend unit coverage: ".number_format($pct,2)."%\n"; if($pct<80){fwrite(STDERR,"Coverage below 80%\n"); exit(1);}';
 
   frontend:
     runs-on: ubuntu-latest
