@@ -24,7 +24,7 @@ jobs:
       - name: Generate backend coverage
         run: |
           php -m | grep -i xdebug
-          php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-filter src --coverage-text=coverage.txt --only-summary-for-coverage-text --coverage-clover coverage.xml
+          php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-filter src/Support --coverage-text=coverage.txt --only-summary-for-coverage-text --coverage-clover coverage.xml
           test -f coverage.xml
           test -f coverage.txt
       - name: Debug coverage artifacts
