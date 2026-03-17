@@ -30,7 +30,52 @@ jobs:
           cat coverage.txt || true
       - name: Enforce backend coverage >= 80%
         run: |
-          php -r '$xmlPath="coverage.xml"; if(!file_exists($xmlPath)){fwrite(STDERR,"coverage.xml not found\n"); exit(1);} $xml=file_get_contents($xmlPath); preg_match_all("/statements=\"(\d+)\"[^>]*coveredstatements=\"(\d+)\"/", $xml, $m, PREG_SET_ORDER); if(!$m){fwrite(STDERR,"Could not parse statement metrics from coverage.xml\n"); exit(1);} $total=0; $covered=0; foreach($m as $row){$total+=(int)$row[1]; $covered+=(int)$row[2];} if($total===0){fwrite(STDERR,"Total statements is zero\n"); exit(1);} $pct=($covered*100)/$total; echo "Backend statement coverage: ".number_format($pct,2)."%\n"; if($pct<80){fwrite(STDERR,"Coverage below 80%\n"); exit(1);}';
+          php <<'PHP'
+          <?php
+          $xmlPath = 'coverage.xml';
+          if (!file_exists($xmlPath)) {
+              fwrite(STDERR, "coverage.xml not found\n");
+              exit(1);
+          }
+
+          $xml = simplexml_load_file($xmlPath);
+          if ($xml === false) {
+              fwrite(STDERR, "Invalid coverage.xml\n");
+              exit(1);
+          }
+
+          $total = 0;
+          $covered = 0;
+
+          $projectMetrics = $xml->xpath('/coverage/project/metrics');
+          if (!empty($projectMetrics)) {
+              $attrs = $projectMetrics[0]->attributes();
+              $total = (int)($attrs['statements'] ?? 0);
+              $covered = (int)($attrs['coveredstatements'] ?? 0);
+          }
+
+          if ($total === 0) {
+              $fileMetrics = $xml->xpath('//file/metrics');
+              foreach ($fileMetrics as $metric) {
+                  $attrs = $metric->attributes();
+                  $total += (int)($attrs['statements'] ?? 0);
+                  $covered += (int)($attrs['coveredstatements'] ?? 0);
+              }
+          }
+
+          if ($total === 0) {
+              fwrite(STDERR, "Could not parse statement metrics from coverage.xml\n");
+              exit(1);
+          }
+
+          $pct = ($covered * 100) / $total;
+          echo 'Backend statement coverage: ' . number_format($pct, 2) . "%\n";
+
+          if ($pct < 80) {
+              fwrite(STDERR, "Coverage below 80%\n");
+              exit(1);
+          }
+          PHP
 
   frontend:
     runs-on: ubuntu-latest
