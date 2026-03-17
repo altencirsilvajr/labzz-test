@@ -22,7 +22,7 @@ jobs:
       - run: composer install --no-interaction
       - run: cp .env.example .env
       - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation
-      - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-text --coverage-clover coverage.xml | tee coverage.txt
+      - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-text=coverage.txt --only-summary-for-coverage-text --coverage-clover coverage.xml
         env:
           XDEBUG_MODE: coverage
       - name: Enforce backend coverage >= 80%
