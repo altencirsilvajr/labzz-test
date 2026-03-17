@@ -21,6 +21,18 @@ export async function fetchMessages(token: string, conversationId: string): Prom
   return payload.data ?? [];
 }
 
+export async function createConversation(token: string, title = "Mobile Chat"): Promise<Conversation | null> {
+  const response = await fetch(`${API_URL}/v1/conversations`, {
+    method: "POST",
+    headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+    body: JSON.stringify({ type: "group", title, members: [] })
+  });
+
+  if (!response.ok) return null;
+  const payload = await response.json();
+  return payload.data ?? null;
+}
+
 export async function sendMessage(token: string, conversationId: string, body: string): Promise<void> {
   await fetch(`${API_URL}/v1/messages`, {
     method: "POST",

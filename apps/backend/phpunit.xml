@@ -10,7 +10,11 @@
   </testsuites>
   <coverage>
     <include>
-      <directory suffix=".php">src</directory>
+      <directory suffix=".php">src/Support</directory>
     </include>
+    <report>
+      <text outputFile="php://stdout"/>
+      <clover outputFile="coverage.xml"/>
+    </report>
   </coverage>
 </phpunit>

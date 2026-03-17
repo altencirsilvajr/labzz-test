@@ -40,11 +40,6 @@ Preencher no mínimo:
 - `APP_KEY=...`
 - `ENCRYPTION_KEY_BASE64=...`
 
-Opcional (Ask AI):
-- `LLM_ENABLED=true`
-- `LLM_API_KEY=...`
-- `LLM_API_URL=...`
-- `LLM_MODEL=...`
 
 ### 3.3 Frontend (`apps/frontend/.env`)
 Preencher no mínimo:
@@ -104,6 +99,8 @@ Se o Elasticsearch ainda não estiver pronto, aguarde e rode novamente o bootstr
 - Chat EN: `http://localhost:3000/en/chat`
 - Backend health: `http://localhost:8080/health`
 - Login direto: `http://localhost:3000/auth/login?returnTo=/pt-BR/chat`
+- Swagger/OpenAPI (arquivo local): `apps/backend/openapi/openapi.yaml`
+- Swagger Editor (render da spec): `https://editor.swagger.io/?url=https://raw.githubusercontent.com/altencirsilvajr/labzz-test/main/apps/backend/openapi/openapi.yaml`
 
 ---
 
@@ -183,11 +180,6 @@ Aguarde cluster ficar pronto e rode novamente:
 docker compose exec backend-api php scripts/bootstrap_elasticsearch.php
 ```
 
-### Ask AI não responde
-Confirme no backend:
-- `LLM_ENABLED=true`
-- `LLM_API_KEY` configurada
-- `LLM_API_URL` e `LLM_MODEL` válidos
 
 ---
 

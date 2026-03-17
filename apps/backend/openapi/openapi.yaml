@@ -99,11 +99,6 @@ paths:
       summary: Generate short-lived websocket token
       responses:
         '200': { description: Token }
-  /v1/llm/reply:
-    post:
-      summary: Opt-in assistant reply
-      responses:
-        '201': { description: Message created }
 components:
   securitySchemes:
     bearerAuth:

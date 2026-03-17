@@ -48,12 +48,6 @@ final class Settings
                 'rate_limit_per_minute' => (int) ($_ENV['RATE_LIMIT_PER_MINUTE'] ?? 120),
                 'ws_token_ttl' => (int) ($_ENV['WS_TOKEN_TTL_SECONDS'] ?? 300),
             ],
-            'llm' => [
-                'enabled' => filter_var($_ENV['LLM_ENABLED'] ?? false, FILTER_VALIDATE_BOOL),
-                'api_url' => $_ENV['LLM_API_URL'] ?? '',
-                'api_key' => $_ENV['LLM_API_KEY'] ?? '',
-                'model' => $_ENV['LLM_MODEL'] ?? 'gpt-4.1-mini',
-            ],
         ];
     }
 }

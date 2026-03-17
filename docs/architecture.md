@@ -11,7 +11,6 @@
   - `Messages`: message create/list with keyset cursor
   - `Search`: Elasticsearch query with SQL fallback
   - `Realtime`: WebSocket token issuance
-  - `LLM`: opt-in AI response flow
 
 ## Data Flow
 

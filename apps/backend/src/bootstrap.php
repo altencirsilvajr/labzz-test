@@ -20,8 +20,6 @@ use App\Infrastructure\Security\Encryptor;
 use App\Modules\Auth\CurrentUserService;
 use App\Modules\Conversations\ConversationsHandler;
 use App\Modules\Conversations\ConversationsRepository;
-use App\Modules\LLM\LlmHandler;
-use App\Modules\LLM\LlmService;
 use App\Modules\Messages\MessagesHandler;
 use App\Modules\Messages\MessagesRepository;
 use App\Modules\Realtime\WsTokenHandler;
@@ -54,7 +52,6 @@ $searchHandler = new SearchHandler($search, $database->connection());
 $wsTokenHandler = new WsTokenHandler(
     new WsTokenService((string) ($_ENV['APP_KEY'] ?? 'fallback-app-key'), (int) $settings['security']['ws_token_ttl'])
 );
-$llmHandler = new LlmHandler(new LlmService($settings['llm']), $messagesRepository, $currentUser, $queue);
 
 $routes = [
     'health' => [
@@ -152,13 +149,6 @@ $routes = [
         'method' => 'POST',
         'path' => '/v1/ws/token',
         'handler' => $wsTokenHandler,
-        'requires_auth' => true,
-        'requires_csrf' => true,
-    ],
-    'llm.reply' => [
-        'method' => 'POST',
-        'path' => '/v1/llm/reply',
-        'handler' => $llmHandler,
         'requires_auth' => true,
         'requires_csrf' => true,
     ],

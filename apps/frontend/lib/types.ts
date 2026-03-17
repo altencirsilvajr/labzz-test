@@ -19,6 +19,6 @@ export type CursorResponse<T> = {
 };
 
 export type RealtimeEvent = {
-  event: "message.created" | "typing.updated" | "presence.updated" | "llm.response";
+  event: "message.created" | "typing.updated" | "presence.updated";
   payload: Record<string, unknown>;
 };

@@ -41,7 +41,7 @@ export function ChatShell() {
         setTypingVisible(true);
         window.setTimeout(() => setTypingVisible(false), 1500);
       }
-      if (event.event === "message.created" || event.event === "llm.response") {
+      if (event.event === "message.created") {
         messagesQuery.refetch();
       }
     },
@@ -85,17 +85,6 @@ export function ChatShell() {
       await messagesQuery.refetch();
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Unable to send message.");
-    }
-  };
-
-  const askAssistant = async (prompt: string) => {
-    if (!activeConversation) return;
-    setErrorMessage(null);
-    try {
-      await http.post("/v1/llm/reply", { conversation_id: activeConversation.id, prompt });
-      await messagesQuery.refetch();
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Ask AI failed.");
     }
   };
 
@@ -150,7 +139,7 @@ export function ChatShell() {
 
             <div className="border-t border-border bg-panel p-4">
               <TypingIndicator visible={typingVisible} />
-              <MessageComposer disabled={!activeConversation} onTyping={sendTyping} onSend={sendMessage} onLlmAsk={askAssistant} />
+              <MessageComposer disabled={!activeConversation} onTyping={sendTyping} onSend={sendMessage} />
             </div>
           </>
         ) : (

@@ -6,10 +6,9 @@ type Props = {
   disabled: boolean;
   onTyping: (active: boolean) => void;
   onSend: (text: string) => Promise<void>;
-  onLlmAsk: (prompt: string) => Promise<void>;
 };
 
-export function MessageComposer({ disabled, onTyping, onSend, onLlmAsk }: Props) {
+export function MessageComposer({ disabled, onTyping, onSend }: Props) {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,19 +22,6 @@ export function MessageComposer({ disabled, onTyping, onSend, onLlmAsk }: Props)
       await onSend(trimmed);
       setValue("");
       onTyping(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const askAssistant = async () => {
-    const trimmed = value.trim();
-    if (!trimmed || loading) return;
-
-    setLoading(true);
-    try {
-      await onLlmAsk(trimmed);
-      setValue("");
     } finally {
       setLoading(false);
     }
@@ -58,18 +44,6 @@ export function MessageComposer({ disabled, onTyping, onSend, onLlmAsk }: Props)
           autoComplete="off"
         />
       </div>
-      <button 
-        type="button" 
-        onClick={askAssistant} 
-        disabled={disabled || loading} 
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accentSoft text-accent transition hover:bg-accent hover:text-white disabled:opacity-50"
-        title="Ask AI"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2v20"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      </button>
       <button 
         type="submit" 
         disabled={disabled || loading || !value.trim()} 
