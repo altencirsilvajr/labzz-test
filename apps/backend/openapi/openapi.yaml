@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: Labzz Chat API
+  version: 1.0.0
+  description: REST API for real-time chat monolith.
+security:
+  - bearerAuth: []
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service healthy
+  /v1/users:
+    get:
+      summary: List users
+      responses:
+        '200': { description: User list }
+    post:
+      summary: Create user
+      responses:
+        '201': { description: User created }
+  /v1/users/{id}:
+    get:
+      summary: Get user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: User }
+        '404': { description: Not found }
+    put:
+      summary: Update user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Updated }
+    delete:
+      summary: Delete user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Deleted }
+  /v1/conversations:
+    get:
+      summary: List conversations
+      responses:
+        '200': { description: OK }
+    post:
+      summary: Create conversation
+      responses:
+        '201': { description: Created }
+  /v1/conversations/{id}/messages:
+    get:
+      summary: List messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /v1/messages:
+    post:
+      summary: Create message
+      responses:
+        '201': { description: Created }
+  /v1/search/users:
+    get:
+      summary: Search users
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /v1/search/messages:
+    get:
+      summary: Search messages
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /v1/ws/token:
+    post:
+      summary: Generate short-lived websocket token
+      responses:
+        '200': { description: Token }
+  /v1/llm/reply:
+    post:
+      summary: Opt-in assistant reply
+      responses:
+        '201': { description: Message created }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas: #f5f4ef;
+  --color-panel: #fffbf0;
+  --color-ink: #16211f;
+  --color-accent: #0a8f70;
+  --color-accent-soft: #d6f4eb;
+  --color-border: #d8d4c4;
+}
+
+.dark {
+  --color-canvas: #111a1a;
+  --color-panel: #192525;
+  --color-ink: #edf5f3;
+  --color-accent: #24c29a;
+  --color-accent-soft: #1f3d37;
+  --color-border: #2f4641;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}

@@ -1,0 +1,28 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# PHP
+apps/backend/vendor/
+apps/backend/coverage/
+apps/backend/.phpunit.cache/
+
+# Node
+apps/frontend/node_modules/
+apps/frontend/.next/
+apps/frontend/coverage/
+apps/mobile/node_modules/
+apps/mobile/.expo/
+
+# Logs
+*.log
+
+# Docker
+*.pid
