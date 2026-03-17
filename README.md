@@ -119,7 +119,21 @@ Se o Elasticsearch ainda não estiver pronto, aguarde e rode novamente o bootstr
 
 ---
 
-## 8) Testes automatizados
+## 8) Screenshots (sistema funcionando)
+
+### Chat funcionando com conversa e requests 200
+![Chat funcionando com requests 200](docs/images/chat-running-network.jpg)
+
+### Onboarding guiado + empty state
+![Onboarding guiado e empty state](docs/images/chat-onboarding-empty.jpg)
+
+### Histórico de falhas no CI (antes da correção)
+![GitHub Actions backend failure (antes)](docs/images/github-actions-backend-failure.jpg)
+![GitHub Actions security failure (antes)](docs/images/github-actions-security-failure.jpg)
+
+---
+
+## 9) Testes automatizados
 
 ### Frontend
 ```powershell
@@ -139,7 +153,7 @@ vendor/bin/phpunit
 
 ---
 
-## 9) Comandos úteis
+## 10) Comandos úteis
 Ver status dos containers:
 ```powershell
 docker compose ps
@@ -157,7 +171,7 @@ docker compose down
 
 ---
 
-## 10) Problemas comuns
+## 11) Problemas comuns
 
 ### `ECONNREFUSED` no `/api/proxy/...`
 Verifique `apps/frontend/.env`:
@@ -177,7 +191,7 @@ Confirme no backend:
 
 ---
 
-## 11) Assumptions / Defaults
+## 12) Assumptions / Defaults
 - Tela inicial para deslogado: `/login` (sem locale)
 - Teste real-time oficial: duas abas da mesma conta
 - `returnTo` aceito apenas para `/pt-BR/...` e `/en/...` (proteção de open redirect)
