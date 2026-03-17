@@ -5,8 +5,8 @@ Sistema de chat real-time fullstack para avaliação técnica.
 ## Stack
 - **Backend:** PHP 8.3 (monolito), MySQL, Redis, Elasticsearch, OpenSwoole
 - **Frontend:** Next.js 15 + TypeScript + Tailwind + i18n (pt-BR/en)
-- **Mobile (bônus):** Expo scaffold
-- **Infra:** Docker Compose, CI básico, OpenAPI, Postman, k6
+- **Mobile (bônus):** Expo (React Native) com fluxo validado no Expo Go
+- **Infra:** Docker Compose, CI, OpenAPI, Postman, k6
 
 ---
 
@@ -31,6 +31,7 @@ cd labzz-test
 ```powershell
 Copy-Item apps/backend/.env.example apps/backend/.env
 Copy-Item apps/frontend/.env.example apps/frontend/.env
+Copy-Item apps/mobile/.env.example apps/mobile/.env
 ```
 
 ### 3.2 Backend (`apps/backend/.env`)
@@ -54,6 +55,15 @@ Preencher no mínimo:
 - `NEXT_PUBLIC_WS_URL=ws://localhost:9502`
 
 > Importante: em Docker, `BACKEND_API_URL` deve ser `http://backend-api:8080`.
+
+### 3.4 Mobile (`apps/mobile/.env`)
+Para teste no **Expo Go** (celular na mesma rede):
+- `EXPO_PUBLIC_API_URL=http://SEU_IP_LOCAL:8080`
+- `EXPO_PUBLIC_WS_URL=ws://SEU_IP_LOCAL:9502`
+- `EXPO_PUBLIC_AUTH_TOKEN=` (opcional; também pode colar o token na própria tela)
+
+Dica para pegar token em dev no frontend logado:
+- `http://localhost:3000/api/dev/access-token`
 
 ---
 
@@ -124,9 +134,8 @@ Se o Elasticsearch ainda não estiver pronto, aguarde e rode novamente o bootstr
 ### Onboarding guiado + empty state
 ![Onboarding guiado e empty state](docs/images/chat-onboarding-empty.jpg)
 
-### Histórico de falhas no CI (antes da correção)
-![GitHub Actions backend failure (antes)](docs/images/github-actions-backend-failure.jpg)
-![GitHub Actions security failure (antes)](docs/images/github-actions-security-failure.jpg)
+### Mobile (Expo Go) funcionando
+![Mobile Expo Go funcionando](docs/images/mobile-expo-go.jpg)
 
 ---
 
@@ -171,8 +180,9 @@ docker compose down
 ## 11) Problemas comuns
 
 ### `ECONNREFUSED` no `/api/proxy/...`
-Verifique `apps/frontend/.env`:
-- `BACKEND_API_URL=http://backend-api:8080`
+Verifique `apps/frontend/.env` conforme o modo de execução:
+- com Docker Compose: `BACKEND_API_URL=http://backend-api:8080`
+- frontend rodando local (`npm run dev`): `BACKEND_API_URL=http://localhost:8080`
 
 ### Erro no bootstrap Elasticsearch
 Aguarde cluster ficar pronto e rode novamente:
