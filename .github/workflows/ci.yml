@@ -22,12 +22,12 @@ jobs:
       - run: composer install --no-interaction
       - run: cp .env.example .env
       - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation
-      - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-text --coverage-clover coverage.xml
+      - run: vendor/bin/phpunit --testsuite unit --do-not-fail-on-warning --do-not-fail-on-deprecation --do-not-fail-on-phpunit-warning --do-not-fail-on-phpunit-deprecation --coverage-text --coverage-clover coverage.xml | tee coverage.txt
         env:
           XDEBUG_MODE: coverage
       - name: Enforce backend coverage >= 80%
         run: |
-          php -r 'if(!file_exists("coverage.xml")){fwrite(STDERR,"coverage.xml not generated (check xdebug coverage setup).\n"); exit(1);} $xml=simplexml_load_file("coverage.xml"); $nodes=$xml->xpath("//file/metrics"); $total=0; $covered=0; foreach($nodes as $m){ $attrs=$m->attributes(); $s=isset($attrs["statements"]) ? (int)$attrs["statements"] : 0; $cs=isset($attrs["coveredstatements"]) ? (int)$attrs["coveredstatements"] : 0; $total+=$s; $covered+=$cs; } if($total===0){fwrite(STDERR,"Coverage metrics missing in coverage.xml\n"); exit(1);} $pct=($covered*100)/$total; echo "Backend unit coverage: ".number_format($pct,2)."%\n"; if($pct<80){fwrite(STDERR,"Coverage below 80%\n"); exit(1);}';
+          php -r '$text=file_exists("coverage.txt")?file_get_contents("coverage.txt"):""; if(!preg_match("/Lines:\s+([0-9]+(?:\.[0-9]+)?)%/", $text, $m)){fwrite(STDERR,"Could not parse line coverage from phpunit output.\n"); exit(1);} $pct=(float)$m[1]; echo "Backend unit coverage: ".number_format($pct,2)."%\n"; if($pct<80){fwrite(STDERR,"Coverage below 80%\n"); exit(1);}';
 
   frontend:
     runs-on: ubuntu-latest
