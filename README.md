@@ -197,3 +197,8 @@ docker compose exec backend-api php scripts/bootstrap_elasticsearch.php
 - Tela inicial para deslogado: `/login` (sem locale)
 - Teste real-time oficial: duas abas da mesma conta
 - `returnTo` aceito apenas para `/pt-BR/...` e `/en/...` (proteção de open redirect)
+
+---
+
+## 13) Guia de entrevista técnica
+- Resumo executivo + roteiro de explicação: `docs/INTERVIEW_GUIDE.md`
